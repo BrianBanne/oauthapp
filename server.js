@@ -35,10 +35,19 @@ app.get (process.env.REDIRECT_URI, async (req, res) => {
       // get user profile data
       const user = await utils.get_profile_data(access_token);
       const user_data = user.data;
-      res.send (`
+      if(user_data.email_verified === true) {
+        res.send (`
         <h1> welcome ${user_data.name}</h1>
         <img src="${user_data.picture}" alt="user_image" />
+        <p> Email: ${user_data.email} </p>
       `);
+      } else {
+        res.send (`
+        <h1> pls verify email</h1>
+      
+      `);
+      }
+     
       console.log (user_data);
     } catch (error) {
       console.log (error.message + " asdasd");
